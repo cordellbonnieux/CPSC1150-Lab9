@@ -5,8 +5,10 @@ import java.util.*;
 public class Scores {
     public static void main(String[] args) throws Exception {
 
+        // user chooses from main menu
         int choice = readChoice();
 
+        // scores file object is created
         File file = new File("StudentScores.txt");
 
         // decide option
@@ -14,7 +16,7 @@ public class Scores {
             case 1: newScoresFile(file);
                 main(null);
                 break;
-            case 2: searchScores();
+            case 2: searchScores(file);
                 main(null);
                 break;
             case 3: addScores();
@@ -37,12 +39,19 @@ public class Scores {
 
         Scanner input = new Scanner(System.in);
 
-        int choice = input.nextInt();
+        int choice = 0;      
 
-        if (choice > 4 || choice < 1) {
-            System.out.println("Invalid entry, try again.");
-            return readChoice();
+        while (choice > 4 || choice < 1) {
+            
+            choice = input.nextInt();
+
+            System.out.println();
+
+            if (choice > 4 || choice < 1)
+                System.out.print("Error: invalid entry, try again: ");
         }
+
+        input.close();
 
         return choice;
     }
@@ -69,11 +78,42 @@ public class Scores {
         newFile.close();
     }
 
-    public static String[] searchScores() {
+    /**
+     * Searches a file and prints the related results
+     * @return
+     */
+    public static void searchScores(File file) throws Exception {
 
-        // search for score
+        // if the file cannot be read return to main menu
+        if (!file.canRead()) {
+            System.out.println("Error: cannot write to file.");
+            main(null);
+        }
 
-        return new String[]{"hey"};
+        // creater a scanner obj
+        Scanner input = new Scanner(System.in);
+
+        // prompt user
+        System.out.print("Enter a student name or score you'd like to find:");
+
+        // get a search from user
+        String search = input.nextLine();
+
+        // re purpose input to scan the file 
+        input.close();
+        input = new Scanner(file);
+
+        int numOfResults = 0;
+
+        while(input.hasNext()) {
+
+            if (input.next().contains(search)) {
+                numOfResults++;
+                System.out.printf("Result %d : %s", numOfResults, input.next());
+            }
+        }
+
+        input.close();
     }
 
     public static void addScores() {
