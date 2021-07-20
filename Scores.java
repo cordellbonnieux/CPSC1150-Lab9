@@ -30,7 +30,7 @@ public class Scores {
                     break;
                 case 2: searchScores(file, words, doc);
                     break;
-                case 3: addScores();
+                case 3: addScores(file, doc, words, num);
                     break;
                 case 4: System.out.println("Exiting Program...");
                     break;
@@ -47,6 +47,7 @@ public class Scores {
         // end 
         System.exit(0);
     }
+
     /**
      * Reads an integer between 1 and 4 inclusive, if the integer is outside this range the method is called again.
      * @return an integer between 1 and 4 (inclusive)
@@ -92,7 +93,7 @@ public class Scores {
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
             System.out.println("Error: cannot write to file.");
-            main(null);
+            return;
         }
 
         // prompt user
@@ -103,9 +104,10 @@ public class Scores {
 
         int numOfResults = 0;
 
-        System.out.println("Search results for: " + search);
-
         while(scan.hasNext()) {
+
+            if (numOfResults == 1)
+                System.out.println("Search results for: " + search);
 
             String line = scan.nextLine();
 
@@ -114,9 +116,45 @@ public class Scores {
                 System.out.printf("#%d: %s \n", numOfResults, line);
             }
         }
+
+        if (numOfResults == 0)
+            System.out.println("Error: No results for your search term");
     }
 
-    public static void addScores() {
-        // add an entry to scores file
+    public static void addScores(File file, Scanner scan, Scanner textInput, Scanner numInput) throws Exception{
+
+        // if the file cannot be read return to main menu
+        if (!file.canRead()) {
+            System.out.println("Error: cannot write to file.");
+            return;
+        }
+
+        // read file into an array list
+        ArrayList<String> data = new ArrayList<String>();
+        while (scan.hasNext())
+            data.add(scan.nextLine());
+
+        // read and store name
+        System.out.print("Please enter a name: ");
+        String name = textInput.nextLine();
+
+        // read and store score
+        System.out.print("Please enter a score: ");
+        int score = numInput.nextInt();
+
+        // concat name and score
+        String newLine = name + " " + String.valueOf(score);
+
+        // rewrite the file
+        PrintWriter output = new PrintWriter(file);
+        for (int i = 0; i < data.size(); i++) {
+            output.println(data.get(i));
+        }
+
+        // add the new line to the file
+        output.println(newLine);
+
+        // close
+        output.close();
     }
 }
