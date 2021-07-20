@@ -101,24 +101,19 @@ public class Scores {
         // get a search from user
         String search = input.nextLine();
 
-        System.out.println(search);
-
-        // create a scanner to read the file
-        /*Scanner scan = new Scanner(file);
-
         int numOfResults = 0;
+
+        System.out.println("Search results for: " + search);
 
         while(scan.hasNext()) {
 
-            if (scan.next().contains(search)) {
+            String line = scan.nextLine();
+
+            if (line.contains(search)) {
                 numOfResults++;
-                System.out.printf("Result %d : %s", numOfResults, scan.next());
+                System.out.printf("#%d: %s \n", numOfResults, line);
             }
         }
-
-        scan.close();
-        */
-
     }
 
     public static void addScores() {
