@@ -2,6 +2,13 @@ import java.io.File;
 import java.io.PrintWriter;
 import javax.swing.*;
 import java.util.*;
+/**
+ * Program Name: Scores.java
+ * Description: Read, write and re-write data (student scores) to an external text document.
+ * @author Cordell Bonnieux
+ * @since July 20 2021 
+ * Instructor: Dr. Bita Shadgar
+ */
 public class Scores {
     public static void main(String[] args) throws Exception {
 
@@ -51,15 +58,20 @@ public class Scores {
     /**
      * Reads an integer between 1 and 4 inclusive, if the integer is outside this range the method is called again.
      * @return an integer between 1 and 4 (inclusive)
+     * @param input
      */
     public static int readChoice(Scanner input) {
 
-        // display options - print for now
-        System.out.print("Options: (1)create new scores file, (2)search the existing scores, (3)add to scores, (4)exit the program: ");
-
-        int choice = input.nextInt();
-
-        return choice;
+        String getChoice = JOptionPane.showInputDialog(null, "Options: (1)create new scores file, (2)search the existing scores, (3)add to scores, (4)exit the program: ");
+        
+        try {
+            int choice = Integer.parseInt(getChoice); //input.nextInt();
+            return choice;
+        
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: invalid selection, try again...");
+            return readChoice(input);
+        }         
     }
 
     /**
@@ -87,6 +99,10 @@ public class Scores {
     /**
      * Searches a file and prints the related results
      * @return
+     * @param file
+     * @param input
+     * @param scan
+     * @throws Exception
      */
     public static void searchScores(File file, Scanner input, Scanner scan) throws Exception {
 
@@ -102,6 +118,7 @@ public class Scores {
         // get a search from user
         String search = input.nextLine();
 
+        // to store the number of results
         int numOfResults = 0;
 
         while(scan.hasNext()) {
@@ -120,7 +137,15 @@ public class Scores {
         if (numOfResults == 0)
             System.out.println("Error: No results for your search term");
     }
-
+    
+    /**
+     * 
+     * @param file
+     * @param scan
+     * @param textInput
+     * @param numInput
+     * @throws Exception
+     */
     public static void addScores(File file, Scanner scan, Scanner textInput, Scanner numInput) throws Exception{
 
         // if the file cannot be read return to main menu
@@ -147,9 +172,8 @@ public class Scores {
 
         // rewrite the file
         PrintWriter output = new PrintWriter(file);
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < data.size(); i++)
             output.println(data.get(i));
-        }
 
         // add the new line to the file
         output.println(newLine);
