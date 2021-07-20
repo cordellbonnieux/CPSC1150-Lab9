@@ -39,9 +39,9 @@ public class Scores {
                     break;
                 case 3: addScores(file, doc, words, num);
                     break;
-                case 4: System.out.println("Exiting Program...");
+                case 4: JOptionPane.showMessageDialog(null, "Exiting Program...");
                     break;
-                default: System.out.println("Error: invalid selection, try again...");           
+                default: JOptionPane.showMessageDialog(null, "Error: invalid selection, try again...");           
             }
 
             doc.close();
@@ -88,9 +88,9 @@ public class Scores {
         PrintWriter newFile = new PrintWriter(file);
 
         if (created) 
-            System.out.println("Current scores file has been wiped");
+            JOptionPane.showMessageDialog(null, "Current scores file has been wiped");
         else {
-            System.out.println("A new file has been created");
+            JOptionPane.showMessageDialog(null, "A new file has been created");
         }
 
         newFile.close();
@@ -108,7 +108,7 @@ public class Scores {
 
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
-            System.out.println("Error: cannot write to file.");
+            JOptionPane.showMessageDialog(null, "Error: cannot write to file.");
             return;
         }
 
@@ -122,9 +122,6 @@ public class Scores {
         int numOfResults = 0;
 
         while(scan.hasNext()) {
-
-            if (numOfResults == 1)
-                System.out.println("Search results for: " + search);
 
             String line = scan.nextLine();
 
@@ -150,7 +147,7 @@ public class Scores {
 
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
-            System.out.println("Error: cannot write to file.");
+            JOptionPane.showMessageDialog(null, "Error: cannot write to file.");
             return;
         }
 
