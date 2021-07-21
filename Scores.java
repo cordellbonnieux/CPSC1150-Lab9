@@ -54,7 +54,29 @@ public class Scores {
      */
     public static int readChoice() {
 
-        String getChoice = JOptionPane.showInputDialog(null, "Options: (1)create new scores file, (2)search the existing scores, (3)add to scores, (4)exit the program: ");
+        // create a nice menu layout
+        JPanel cPanel = new JPanel();
+        cPanel.setLayout(new BoxLayout(cPanel, BoxLayout.Y_AXIS));
+
+        // add all 4 labels to the panel
+        JLabel one = new JLabel("Enter 1 to create a new scores file.");
+        JPanel oneP = new JPanel();
+        oneP.add(one);
+        cPanel.add(oneP);
+        JLabel two = new JLabel("Enter 2 to search into an existing scores file.");
+        JPanel twoP = new JPanel();
+        twoP.add(two);
+        cPanel.add(twoP);
+        JLabel three = new JLabel("Enter 3 to add to an existing course scores file.");
+        JPanel threeP = new JPanel();
+        threeP.add(three);
+        cPanel.add(threeP);
+        JLabel four = new JLabel("Enter 4 to quit the program.");
+        JPanel fourP = new JPanel();
+        fourP.add(four);
+        cPanel.add(fourP);
+
+        String getChoice = JOptionPane.showInputDialog(null, cPanel);
         
         try {
             int choice = Integer.parseInt(getChoice);
