@@ -112,27 +112,42 @@ public class Scores {
             return;
         }
 
-        // prompt user
-        System.out.print("Enter a student name or score you'd like to find:");
-
         // get a search from user
-        String search = input.nextLine();
+        String search = JOptionPane.showInputDialog(null, "Enter a student name or score you'd like to find:");
 
         // to store the number of results
         int numOfResults = 0;
+
+        // parent panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         while(scan.hasNext()) {
 
             String line = scan.nextLine();
 
             if (line.contains(search)) {
+
+                JPanel row = new JPanel();
+
+                // create a header
+                if (numOfResults == 0) {
+                    JLabel heading = new JLabel("Results from your search of: " + search);
+                    row.add(heading);
+                }
+
+                // create a display for each result
                 numOfResults++;
-                System.out.printf("#%d: %s \n", numOfResults, line);
+                JLabel label = new JLabel(String.format("#%d: %s \n", numOfResults, line));
+                row.add(label);
+                panel.add(row);
             }
         }
 
         if (numOfResults == 0)
-            System.out.println("Error: No results for your search term");
+            JOptionPane.showMessageDialog(null, "Error: No results for your search term");
+        else
+            JOptionPane.showMessageDialog(null, panel);
     }
     
     /**
