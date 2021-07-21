@@ -17,7 +17,7 @@ public class Scores {
         Scanner words = new Scanner(System.in);
         Scanner doc;
 
-        // holds user's menu choice
+        // holds user's menu choice 
         int choice = 0;
         
         while (choice != 4) {
@@ -130,10 +130,12 @@ public class Scores {
 
                 JPanel row = new JPanel();
 
-                // create a header
+                // create a header for the results
                 if (numOfResults == 0) {
                     JLabel heading = new JLabel("Results from your search of: " + search);
-                    row.add(heading);
+                    JPanel rowH = new JPanel();
+                    rowH.add(heading);
+                    panel.add(rowH);
                 }
 
                 // create a display for each result
@@ -172,12 +174,20 @@ public class Scores {
             data.add(scan.nextLine());
 
         // read and store name
-        System.out.print("Please enter a name: ");
-        String name = textInput.nextLine();
+        String name = JOptionPane.showInputDialog(null, "Please enter a name: ");
 
         // read and store score
-        System.out.print("Please enter a score: ");
-        int score = numInput.nextInt();
+        String scoreString = JOptionPane.showInputDialog(null, "Please enter a score: ");
+
+        int score;
+ 
+        try {
+            score = Integer.parseInt(scoreString);
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: score needs to be a number...");
+            return;
+        } 
 
         // concat name and score
         String newLine = name + " " + String.valueOf(score);
@@ -189,6 +199,9 @@ public class Scores {
 
         // add the new line to the file
         output.println(newLine);
+
+        // notify the user
+        JOptionPane.showMessageDialog(null, "Your record has been added to the file.");
 
         // close
         output.close();
