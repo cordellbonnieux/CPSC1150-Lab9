@@ -14,7 +14,6 @@ public class Scores {
 
         // create scanners
         Scanner num = new Scanner(System.in);
-        Scanner words = new Scanner(System.in);
         Scanner doc;
 
         // holds user's menu choice 
@@ -35,9 +34,9 @@ public class Scores {
             switch(choice) {
                 case 1: newScoresFile(file);
                     break;
-                case 2: searchScores(file, words, doc);
+                case 2: searchScores(file, doc);
                     break;
-                case 3: addScores(file, doc, words, num);
+                case 3: addScores(file, doc);
                     break;
                 case 4: JOptionPane.showMessageDialog(null, "Exiting Program...");
                     break;
@@ -49,7 +48,6 @@ public class Scores {
 
         // close the scanners
         num.close();
-        words.close();
 
         // end 
         System.exit(0);
@@ -104,7 +102,7 @@ public class Scores {
      * @param scan
      * @throws Exception
      */
-    public static void searchScores(File file, Scanner input, Scanner scan) throws Exception {
+    public static void searchScores(File file, Scanner scan) throws Exception {
 
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
@@ -160,7 +158,7 @@ public class Scores {
      * @param numInput
      * @throws Exception
      */
-    public static void addScores(File file, Scanner scan, Scanner textInput, Scanner numInput) throws Exception{
+    public static void addScores(File file, Scanner scan) throws Exception{
 
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
