@@ -12,8 +12,7 @@ import java.util.*;
 public class Scores {
     public static void main(String[] args) throws Exception {
 
-        // create scanners
-        Scanner num = new Scanner(System.in);
+        // create scanner
         Scanner doc;
 
         // holds user's menu choice 
@@ -22,7 +21,7 @@ public class Scores {
         while (choice != 4) {
 
             // user chooses from main menu
-            choice = readChoice(num);
+            choice = readChoice();
 
             // scores file object is created
             File file = new File("StudentScores.txt");
@@ -46,29 +45,24 @@ public class Scores {
             doc.close();
         }
 
-        // close the scanners
-        num.close();
-
-        // end 
         System.exit(0);
     }
 
     /**
      * Reads an integer between 1 and 4 inclusive, if the integer is outside this range the method is called again.
      * @return an integer between 1 and 4 (inclusive)
-     * @param input
      */
-    public static int readChoice(Scanner input) {
+    public static int readChoice() {
 
         String getChoice = JOptionPane.showInputDialog(null, "Options: (1)create new scores file, (2)search the existing scores, (3)add to scores, (4)exit the program: ");
         
         try {
-            int choice = Integer.parseInt(getChoice); //input.nextInt();
+            int choice = Integer.parseInt(getChoice);
             return choice;
         
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: invalid selection, try again...");
-            return readChoice(input);
+            return readChoice();
         }         
     }
 
@@ -95,14 +89,12 @@ public class Scores {
     }
 
     /**
-     * Searches a file and prints the related results
-     * @return
-     * @param file
-     * @param input
-     * @param scan
-     * @throws Exception
+     * Searches a file based on a read string then prints any related results
+     * @return Only returns if the file cannot be read
+     * @param file a file to be searched
+     * @param scan a scanner object used to search the file
      */
-    public static void searchScores(File file, Scanner scan) throws Exception {
+    public static void searchScores(File file, Scanner scan) {
 
         // if the file cannot be read return to main menu
         if (!file.canRead()) {
@@ -151,12 +143,10 @@ public class Scores {
     }
     
     /**
-     * 
-     * @param file
-     * @param scan
-     * @param textInput
-     * @param numInput
-     * @throws Exception
+     * Takes a files and appends a new entry (entered by the user) on a new line in the file.
+     * @param file the file to be added to
+     * @param scan a scanner object used to scane the file
+     * @throws Exception FileNotFoundException 
      */
     public static void addScores(File file, Scanner scan) throws Exception{
 
