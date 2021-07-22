@@ -28,18 +28,31 @@ public class Scores {
 
             // decide option
             switch(choice) {
-                case 1: newScoresFile(file); // create a new scores file
+                case 1: // create a new scores file
+                    newScoresFile(file); 
                     break;
-                case 2: doc = new Scanner(file); // search scores file
+                case 2: // search scores file
+                    if (!file.canRead()) { 
+                        JOptionPane.showMessageDialog(null, "Error: no file to search."); 
+                        break;
+                    }
+                    doc = new Scanner(file); 
                     searchScores(file, doc);
                     doc.close();
                     break;
-                case 3: doc = new Scanner(file); // add to scores file
+                case 3: // add to scores file
+                    if (!file.canRead()) { 
+                        JOptionPane.showMessageDialog(null, "Error: no file to add to."); 
+                        break;
+                    }
+                    doc = new Scanner(file); 
                     addScores(file, doc);
                     doc.close();
                     break;
-                case 4: JOptionPane.showMessageDialog(null, "Exiting Program..."); // exit program
+                case 4: // exit the program
+                    JOptionPane.showMessageDialog(null, "Exiting Program..."); 
                     break;
+                    
                 default: JOptionPane.showMessageDialog(null, "Error: invalid selection, try again...");           
             }
         }
@@ -125,7 +138,7 @@ public class Scores {
 
                 if (answer != 1)
                     return;
-                    
+
             } catch (NumberFormatException e) {
                 return;
             }
@@ -148,12 +161,6 @@ public class Scores {
      * @param scan a scanner object used to search the file
      */
     public static void searchScores(File file, Scanner scan) {
-
-        // if the file cannot be read return to main menu
-        if (!file.canRead()) {
-            JOptionPane.showMessageDialog(null, "Error: cannot write to file.");
-            return;
-        }
 
         // get a search from user
         String search = JOptionPane.showInputDialog(null, "Enter a student name or score you'd like to find:");
@@ -203,26 +210,17 @@ public class Scores {
      */
     public static void addScores(File file, Scanner scan) throws Exception{
 
-        // if the file cannot be read return to main menu
-        if (!file.canRead()) {
-            JOptionPane.showMessageDialog(null, "Error: cannot write to file.");
-            return;
-        }
-
         // read file length
         int length = 0;
         while (scan.hasNextLine()) {
             length++;
             scan.nextLine();
         }
-
         scan.close();
-        
+
         // put each line into an array element
         scan = new Scanner(file);
-
         String[] data = new String[length];
-
         for (int i = 0; i < length; i++)
             data[i] = scan.nextLine();
 
@@ -231,32 +229,23 @@ public class Scores {
 
         // read and store score
         String scoreString = JOptionPane.showInputDialog(null, "Please enter a score: ");
-
         int score;
- 
         try {
             score = Integer.parseInt(scoreString);
-            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: score needs to be a number...");
             return;
         } 
-
-        // concat name and score
+        
+        // concat the name and score, then rewrite the file, then add the new line to the file
         String newLine = name + " " + String.valueOf(score);
-
-        // rewrite the file
         PrintWriter output = new PrintWriter(file);
         for (int i = 0; i < length; i++)
             output.println(data[i]);
-
-        // add the new line to the file
         output.println(newLine);
 
         // notify the user
         JOptionPane.showMessageDialog(null, "Your record has been added to the file.");
-
-        // close
         output.close();
     }
 }
