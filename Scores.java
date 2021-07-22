@@ -26,23 +26,22 @@ public class Scores {
             // scores file object is created
             File file = new File("StudentScores.txt");
 
-            //assign docs
-            doc = new Scanner(file);
-
             // decide option
             switch(choice) {
-                case 1: newScoresFile(file);
+                case 1: newScoresFile(file); // create a new scores file
                     break;
-                case 2: searchScores(file, doc);
+                case 2: doc = new Scanner(file); // search scores file
+                    searchScores(file, doc);
+                    doc.close();
                     break;
-                case 3: addScores(file, doc);
+                case 3: doc = new Scanner(file); // add to scores file
+                    addScores(file, doc);
+                    doc.close();
                     break;
-                case 4: JOptionPane.showMessageDialog(null, "Exiting Program...");
+                case 4: JOptionPane.showMessageDialog(null, "Exiting Program..."); // exit program
                     break;
                 default: JOptionPane.showMessageDialog(null, "Error: invalid selection, try again...");           
             }
-
-            doc.close();
         }
 
         System.exit(0);
@@ -90,7 +89,7 @@ public class Scores {
 
     /**
      * Creates a new StudentScores.txt file if one does not exist,
-     * if it does then the program wipes the data from the file.
+     * if it does then the user is asked if they want to wipe the current file.
      * @param file a .txt file in the program's relative path
      * @throws Exception FileNotFoundException 
      */
@@ -99,15 +98,43 @@ public class Scores {
         // check for existing file
         Boolean created = file.exists();
 
-        if (created) 
+        if (created) {
 
-        
-            //String wipe = JOptionPane.showInputDialog(null, "A file already exists, Enter 1 to overwrite, Enter 2 to return to main menu");
+            // create a panel to prompt the user
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-            JOptionPane.showMessageDialog(null, "Current scores file has been wiped");
-        else {
-            JOptionPane.showMessageDialog(null, "A new file has been created");
-        }
+            JPanel row1 = new JPanel();
+            JLabel row1Text = new JLabel("A file already exists!");
+            row1.add(row1Text);
+            panel.add(row1);
+
+            JPanel row2 = new JPanel();
+            JLabel row2Text = new JLabel("Enter 1 if you're sure you want to overwrite the existing file.");
+            row2.add(row2Text);
+            panel.add(row2);
+
+            JPanel row3 = new JPanel();
+            JLabel row3Text = new JLabel("Otherwise, click 'OK' to return to the main menu.");
+            row3.add(row3Text);
+            panel.add(row3);
+
+            // ask the user if they would like to continue
+            try {
+                int answer = Integer.parseInt(JOptionPane.showInputDialog(null, panel));
+
+                if (answer != 1)
+                    return;
+                    
+            } catch (NumberFormatException e) {
+                return;
+            }
+
+            JOptionPane.showMessageDialog(null, "Current scores file has been wiped.");
+
+        } else {
+            JOptionPane.showMessageDialog(null, "A new scores file has been created.");
+        }        
 
         PrintWriter newFile = new PrintWriter(file);
 
