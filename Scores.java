@@ -99,13 +99,17 @@ public class Scores {
         // check for existing file
         Boolean created = file.exists();
 
-        PrintWriter newFile = new PrintWriter(file);
-
         if (created) 
+
+        
+            //String wipe = JOptionPane.showInputDialog(null, "A file already exists, Enter 1 to overwrite, Enter 2 to return to main menu");
+
             JOptionPane.showMessageDialog(null, "Current scores file has been wiped");
         else {
             JOptionPane.showMessageDialog(null, "A new file has been created");
         }
+
+        PrintWriter newFile = new PrintWriter(file);
 
         newFile.close();
     }
@@ -178,10 +182,22 @@ public class Scores {
             return;
         }
 
-        // read file into an array list
-        ArrayList<String> data = new ArrayList<String>();
-        while (scan.hasNext())
-            data.add(scan.nextLine());
+        // read file length
+        int length = 0;
+        while (scan.hasNextLine()) {
+            length++;
+            scan.nextLine();
+        }
+
+        scan.close();
+        
+        // put each line into an array element
+        scan = new Scanner(file);
+
+        String[] data = new String[length];
+
+        for (int i = 0; i < length; i++)
+            data[i] = scan.nextLine();
 
         // read and store name
         String name = JOptionPane.showInputDialog(null, "Please enter a name: ");
@@ -204,8 +220,8 @@ public class Scores {
 
         // rewrite the file
         PrintWriter output = new PrintWriter(file);
-        for (int i = 0; i < data.size(); i++)
-            output.println(data.get(i));
+        for (int i = 0; i < length; i++)
+            output.println(data[i]);
 
         // add the new line to the file
         output.println(newLine);
